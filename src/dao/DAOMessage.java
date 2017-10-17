@@ -42,7 +42,7 @@ public class DAOMessage {
 		
 		try {
 			Statement myStatement = this.connection.createStatement();
-			ResultSet myResult = myStatement.executeQuery("SELECT * FROM message WHERE PRO_ID = " + id +";");
+			ResultSet myResult = myStatement.executeQuery("SELECT * FROM message WHERE MES_SALON_ID = " + salonId +";");
 
 			
 			if (myResult.next()){
