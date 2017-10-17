@@ -1,4 +1,9 @@
 
 public class Principal {
-salut
+
+	public static void main(String[] args) {
+		
+
+	}
+
 }
