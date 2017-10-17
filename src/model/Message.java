@@ -9,6 +9,10 @@ public class Message {
 	Date dateMessage;
 	int salonId;
 	
+	public Message(){
+		
+	}
+	
 	public Message(String userId, String message, Date dateMessage, int salonId){
 		this.userId = userId;
 		this.message = message;

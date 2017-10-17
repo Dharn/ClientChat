@@ -6,6 +6,10 @@ public class Salon {
 	String mdp;
 	int createurId;
 	
+	public Salon(){
+		
+	}
+	
 	public Salon(String name, String mdp, int createurId){
 		this.name = name;
 		this.mdp = mdp;
