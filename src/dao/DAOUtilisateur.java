@@ -18,7 +18,7 @@ public class DAOUtilisateur {
 		
 		try {
 			Statement myStatement = this.connection.createStatement();
-			ResultSet myResult = myStatement.executeQuery("SELECT * FROM message WHERE PRO_ID = " + id +";");
+			ResultSet myResult = myStatement.executeQuery("SELECT * FROM message WHERE UTI_ID = " + id +";");
 
 			
 			if (myResult.next()){

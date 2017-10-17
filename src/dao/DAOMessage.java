@@ -15,7 +15,30 @@ public class DAOMessage {
 		this.connection = c;
 	}
 	
-	public Message get(int id){
+	public Message getById(int id){
+		
+		try {
+			Statement myStatement = this.connection.createStatement();
+			ResultSet myResult = myStatement.executeQuery("SELECT * FROM message WHERE MES_ID = " + id +";");
+
+			
+			if (myResult.next()){
+			Message myMessage = new Message();
+			myMessage.setId(myResult.getInt("MES_ID"));
+			myMessage.setUserId(myResult.getString("MES_USER_ID"));
+			myMessage.setUserId(myResult.getString("MES_MESSAGE"));
+			myMessage.setDateMessage(myResult.getDate("MES_DATE"));
+			myMessage.setSalonId(myResult.getInt("MES_SALON_ID"));
+			return myMessage;
+			}
+			}
+		catch(Exception e) {
+			System.out.println("Impossible de se connecter");
+			}
+		return null; 
+	}
+	
+	public Message getBySalonId(int salonId){
 		
 		try {
 			Statement myStatement = this.connection.createStatement();
