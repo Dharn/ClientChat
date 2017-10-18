@@ -50,10 +50,22 @@ public class ViewListeSalon extends JFrame implements ActionListener, KeyListene
 
 	private List ListSalon = new List();
 	private List ListConnectees = new List();
-
+	
+	private Timer tRefresh;
+	
+	private ArrayList<Salon> listeDesSalon = new ArrayList<Salon>();
+	private ArrayList<Salon> listeDesSalonNEW = new ArrayList<Salon>();
+	private ArrayList<Utilisateur> listeDesUtilisateurs = new ArrayList<Utilisateur>();
+	private ArrayList<Utilisateur> listeDesUtilisateursNEW = new ArrayList<Utilisateur>();
+	
+	
 	public ViewListeSalon(Connection myConnection) {
 		this.myConnection = myConnection;
+		tRefresh = new Timer(1000, this);
+		tRefresh.start();
 		initialyse();
+		
+		
 	}
 
 	public void initialyse() {
@@ -218,10 +230,30 @@ public class ViewListeSalon extends JFrame implements ActionListener, KeyListene
 	public void onButtonRafraichir() {
 		DAOSalon daos = new DAOSalon(myConnection);
 		ArrayList<Salon> salons = daos.getAll();
-		this.ListSalon.removeAll();
-
-		for (Salon salon : salons) {
-			this.ListSalon.add(salon.getName());
+		listeDesSalonNEW = salons;
+		for (Salon sNew : listeDesSalonNEW) {
+			boolean estPresent= false;
+			for (Salon s : listeDesSalon) {
+				if (sNew.getName().equals(s.getName())) {
+					estPresent = true;
+				}
+			}
+			if (!estPresent) {
+				listeDesSalon.add(sNew);
+				this.ListSalon.add(sNew.getName());
+			}
+		}
+		for (Salon s : listeDesSalon) {
+			boolean estPresent= false;
+			for (Salon sNew : listeDesSalonNEW) {
+				if (sNew.getName().equals(s.getName())) {
+					estPresent=true;
+				}
+			}
+			if (!estPresent) {
+				listeDesSalon.remove(s);
+				this.ListSalon.remove(s.getName());
+			}
 		}
 
 	}
@@ -306,15 +338,32 @@ public class ViewListeSalon extends JFrame implements ActionListener, KeyListene
 
 	public void getConnectees() {
 		DAOUtilisateur DAOu = new DAOUtilisateur(myConnection);
-		try {
-			ArrayList<Utilisateur> listu= DAOu.getAll();
-			this.ListConnectees.removeAll();
-			for (Utilisateur utilisateur : listu) {
-				this.ListConnectees.add(utilisateur.getPseudo());
+		ArrayList<Utilisateur> listu= DAOu.getAll();
+		listeDesUtilisateursNEW = listu;
+		
+		for (Utilisateur uNEW : listeDesUtilisateursNEW) {
+			boolean estPresent= false;
+			for (Utilisateur u : listeDesUtilisateurs) {
+				if (uNEW.getPseudo().equals(u.getPseudo())) {
+					estPresent = true;
+				}
 			}
-			
-		} catch (Exception e) {
-			// TODO: handle exception
+			if (!estPresent) {
+				listeDesUtilisateurs.add(uNEW);
+				this.ListConnectees.add(uNEW.getPseudo());
+			}
+		}
+		for (Utilisateur u : listeDesUtilisateurs) {
+			boolean estPresent= false;
+			for (Utilisateur uNEW : listeDesUtilisateursNEW) {
+				if (uNEW.getPseudo().equals(u.getPseudo())) {
+					estPresent=true;
+				}
+			}
+			if (!estPresent) {
+				listeDesUtilisateurs.remove(u);
+				this.ListConnectees.remove(u.getPseudo());
+			}
 		}
 	}
 
@@ -361,6 +410,10 @@ public class ViewListeSalon extends JFrame implements ActionListener, KeyListene
 		}
 		if (e.getSource()==this.buttonRefresh) {
 			onButtonRafraichir();
+		}
+		if (e.getSource() == this.tRefresh) {
+			onButtonRafraichir();
+			getConnectees();
 		}
 	}
 
