@@ -37,6 +37,7 @@ public class ViewListeSalon extends JFrame implements ActionListener, KeyListene
 	private JPanel PanelSouthNorthLeft = new JPanel();
 	private JPanel PanelSouthNorthRight = new JPanel();
 	private JPanel PanelSouthCenter = new JPanel();
+	private JPanel PanelSouthSouth = new JPanel();
 
 	private JLabel labelListeSalon = new JLabel("Liste des salons :");
 
@@ -53,6 +54,7 @@ public class ViewListeSalon extends JFrame implements ActionListener, KeyListene
 	private JButton buttonDeconnecter = new JButton("Se déconnecter");
 
 	private List ListSalon = new List();
+	private List ListConnectees = new List();
 
 	public ViewListeSalon() {
 		initialyse();
@@ -80,7 +82,8 @@ public class ViewListeSalon extends JFrame implements ActionListener, KeyListene
 		this.PanelSouthNorth.setBorder(BorderFactory.createTitledBorder("Création d'un salon"));
 		this.PanelSouthNorthLeft.setLayout(new GridLayout(2, 1));
 		this.PanelSouthNorthRight.setLayout(new FlowLayout());
-		this.PanelSouthCenter.setLayout(new BorderLayout());
+		this.PanelSouthCenter.setLayout(new GridLayout());
+		this.PanelSouthSouth.setLayout(new BorderLayout());
 
 		// ajout des components dans les panels
 
@@ -111,8 +114,10 @@ public class ViewListeSalon extends JFrame implements ActionListener, KeyListene
 		this.PanelSouthNorth.add(this.PanelSouthNorthRight, BorderLayout.EAST);
 		this.PanelSouthNorthRight.add(this.buttonCreateSalon);
 		this.PanelSouth.add(this.PanelSouthCenter, BorderLayout.CENTER);
-		this.PanelSouthCenter.add(this.labelInfo);
+		this.PanelSouthCenter.add(this.ListConnectees);
 
+		this.PanelSouth.add(this.PanelSouthSouth, BorderLayout.SOUTH);
+		this.PanelSouthSouth.add(this.labelInfo);
 		// add wrap and scroll
 
 		// On ajoute les évènements sur les boutons
@@ -194,6 +199,10 @@ public class ViewListeSalon extends JFrame implements ActionListener, KeyListene
 
 	public void onConnectSalon() {
 
+	}
+	
+	public void getConnectees(){
+		
 	}
 
 	@Override
