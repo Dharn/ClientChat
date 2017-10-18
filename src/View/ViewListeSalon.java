@@ -249,7 +249,28 @@ public class ViewListeSalon extends JFrame implements ActionListener, KeyListene
 	}
 
 	public void onConnectSalon() {
-
+		
+		if (true) {
+			DAOSalon DAOs = new DAOSalon(myConnection);
+			Salon s = DAOs.getByName(this.ListSalon.getSelectedItem());
+			String mdp = JOptionPane.showInputDialog(this,
+					"entrez le mot de passe du salon " + this.ListSalon.getSelectedItem(),
+					this.ListSalon.getSelectedItem(), JOptionPane.PLAIN_MESSAGE);
+			boolean mdpCorrect = DAOs.checkMDP(mdp, s);
+			if (mdpCorrect) {
+				ViewSalon newsalon = new ViewSalon(s, this.myConnection, this.utilisateur);
+			}
+			else {
+				this.labelInfo.setText("Mot de passe du salon incorrect.");
+			}
+			try {
+				
+				
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+			
+		}
 	}
 	
 	public void onButtonCreerUtilisateur(){
@@ -375,12 +396,8 @@ public class ViewListeSalon extends JFrame implements ActionListener, KeyListene
 	@Override
 	public void itemStateChanged(ItemEvent arg0) {
 		if (arg0.getSource() == this.ListSalon) {
-			String mdp = JOptionPane.showInputDialog(this,
-					"entrez le mot de passe du salon " + this.ListSalon.getSelectedItem(),
-					this.ListSalon.getSelectedItem(), JOptionPane.PLAIN_MESSAGE);
-			if (true) {
-				ViewSalon newsalon = new ViewSalon(this.ListSalon.getSelectedItem(), myConnection);
-			}
+			onConnectSalon();
+			
 		}
 
 	}

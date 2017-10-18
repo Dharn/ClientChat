@@ -52,15 +52,11 @@ public class ViewSalon extends JFrame implements ActionListener, KeyListener {
 	private Salon monSalon;
 	private Utilisateur monUtilisateur;
 
-	public ViewSalon(String nomDuSalon, Connection myConnection) {
-		this.nomDuSalon = nomDuSalon;
-		this.myConnection = myConnection;
-		initialyse();
-	}
 	
-	public ViewSalon(Salon monSalon, Connection myConnection) {
+	public ViewSalon(Salon monSalon, Connection myConnection, Utilisateur u) {
 		this.monSalon = monSalon;
 		this.myConnection = myConnection;
+		this.monUtilisateur = u;
 		initialyse();
 	}
 
