@@ -107,4 +107,20 @@ public class DAOSalon {
 		return false;
 	}
 	
+	public void supprimerSalon(Salon s){
+		try {
+			Statement myStatement = this.connection.createStatement();
+			System.out.println("Supression d'un salon");
+			String requete = "DELETE FROM salon WHERE SAL_NAME = " + "'" + s.getName() + "'" ;
+
+			System.out.println("La requete suivante a ete envoyee a la BDD");
+			System.out.println(requete);
+			myStatement.execute(requete);
+			}
+		catch (Exception e) {
+			System.out.println("Echec de la supression");
+			}
+			
+	}
+	
 }

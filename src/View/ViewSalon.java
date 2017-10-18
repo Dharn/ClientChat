@@ -148,7 +148,8 @@ public class ViewSalon extends JFrame implements ActionListener, KeyListener {
 	}
 	
 	public void onButtonDetruireSalon(){
-		
+		DAOSalon daoSalon = new DAOSalon(myConnection);
+		daoSalon.supprimerSalon(this.monSalon);
 	}
 	
 	
