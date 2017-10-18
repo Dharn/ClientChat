@@ -192,6 +192,10 @@ public class ViewListeSalon extends JFrame implements ActionListener, KeyListene
 
 	}
 
+	public void onConnectSalon() {
+
+	}
+
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
@@ -206,7 +210,15 @@ public class ViewListeSalon extends JFrame implements ActionListener, KeyListene
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
+		if (e.getKeyChar() == KeyEvent.VK_ENTER) {
+			if (e.getSource() == this.textFieldMdp) {
+				onButtonconnexion();
+			}
+			if (e.getSource() == this.textFieldMdpSalon) {
+
+			}
+
+		}
 
 	}
 
@@ -217,6 +229,9 @@ public class ViewListeSalon extends JFrame implements ActionListener, KeyListene
 		}
 		if (e.getSource() == this.buttonDeconnecter) {
 			onButtonDeconnection();
+		}
+		if (e.getSource() == this.buttonCreateSalon) {
+
 		}
 	}
 

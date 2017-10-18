@@ -111,6 +111,19 @@ public class ViewSalon extends JFrame implements ActionListener, KeyListener {
 	public boolean isAdmin(){
 		return true;
 	}
+	
+	public void onButtonSend(){
+		
+	}
+	public void getMessage(){
+		
+	}
+	
+	public void onButtonDetruireSalon(){
+		
+	}
+	
+	
 
 	@Override
 	public void keyPressed(KeyEvent arg0) {
@@ -126,12 +139,7 @@ public class ViewSalon extends JFrame implements ActionListener, KeyListener {
 
 	@Override
 	public void keyTyped(KeyEvent arg0) {
-		System.out.println(arg0.getKeyChar());
-		System.out.println(arg0.getKeyCode());
-		System.out.println(arg0.getKeyLocation());
 		if (arg0.getKeyChar() == KeyEvent.VK_ENTER) {
-			System.out.println("1");
-			System.out.println(arg0.getSource());
 			if (arg0.getSource() == this.textAreaMessageToSend) {
 				this.textAreaDiscussion.setText(this.textAreaDiscussion.getText()+this.textAreaMessageToSend.getText());
 				this.textAreaMessageToSend.setText("");
@@ -144,7 +152,7 @@ public class ViewSalon extends JFrame implements ActionListener, KeyListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == this.buttonSend) {
-			this.textAreaDiscussion.setText(this.textAreaDiscussion.getText()+"\n"+this.textAreaMessageToSend.getText());
+			this.textAreaDiscussion.setText(this.textAreaDiscussion.getText()+this.textAreaMessageToSend.getText()+"\n");
 			this.textAreaMessageToSend.setText("");
 		}
 		
