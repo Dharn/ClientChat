@@ -2,7 +2,7 @@ import java.sql.*;
 
 import View.ViewListeSalon;
 
-public class Principal {
+public class PrincipalChat {
 	
 	public static void main(String[] args) {
 		
@@ -11,6 +11,7 @@ public class Principal {
 		try{
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection myConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/chat", "root", "");
+			//Connection myConnection = null;
 			ViewListeSalon l = new ViewListeSalon(myConnection);
 			
 		}
