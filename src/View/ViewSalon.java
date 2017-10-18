@@ -14,11 +14,14 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.sql.*;
 
 import javax.swing.*;
 
 public class ViewSalon extends JFrame implements ActionListener, KeyListener {
-
+	
+	private Connection myConnection;
+	
 	private JPanel Panel1 = new JPanel();
 	private JPanel PanelNorth = new JPanel();
 
@@ -42,8 +45,9 @@ public class ViewSalon extends JFrame implements ActionListener, KeyListener {
 
 	private String nomDuSalon;
 
-	public ViewSalon(String nomDuSalon) {
+	public ViewSalon(String nomDuSalonn, Connection myConnection) {
 		this.nomDuSalon = nomDuSalon;
+		this.myConnection = myConnection;
 		initialyse();
 	}
 
