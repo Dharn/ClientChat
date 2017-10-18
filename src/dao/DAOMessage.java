@@ -28,8 +28,7 @@ public class DAOMessage {
 			if (myResult.next()){
 			Message myMessage = new Message();
 			myMessage.setId(myResult.getInt("MES_ID"));
-			myMessage.setUserId(myResult.getString("MES_USER_ID"));
-			myMessage.setUserId(myResult.getString("MES_MESSAGE"));
+			myMessage.setUserId(myResult.getInt("MES_USER_ID"));
 			myMessage.setDateMessage(myResult.getDate("MES_DATE"));
 			myMessage.setSalonId(myResult.getInt("MES_SALON_ID"));
 			return myMessage;
@@ -51,8 +50,7 @@ public class DAOMessage {
 			while (myResult.next()){
 			Message myMessage = new Message();
 			myMessage.setId(myResult.getInt("MES_ID"));
-			myMessage.setUserId(myResult.getString("MES_USER_ID"));
-			myMessage.setUserId(myResult.getString("MES_MESSAGE"));
+			myMessage.setUserId(myResult.getInt("MES_USER_ID"));
 			myMessage.setDateMessage(myResult.getDate("MES_DATE"));
 			myMessage.setSalonId(myResult.getInt("MES_SALON_ID"));
 			

@@ -18,6 +18,10 @@ import java.sql.*;
 import javax.swing.*;
 
 import dao.*;
+import dao.DAOMessage;
+import model.Message;
+import model.Salon;
+import model.Utilisateur;
 
 public class ViewSalon extends JFrame implements ActionListener, KeyListener {
 	
@@ -45,9 +49,17 @@ public class ViewSalon extends JFrame implements ActionListener, KeyListener {
 	private List ListConnectees = new List();
 
 	private String nomDuSalon;
+	private Salon monSalon;
+	private Utilisateur monUtilisateur;
 
-	public ViewSalon(String nomDuSalonn, Connection myConnection) {
+	public ViewSalon(String nomDuSalon, Connection myConnection) {
 		this.nomDuSalon = nomDuSalon;
+		this.myConnection = myConnection;
+		initialyse();
+	}
+	
+	public ViewSalon(Salon monSalon, Connection myConnection) {
+		this.monSalon = monSalon;
 		this.myConnection = myConnection;
 		initialyse();
 	}
@@ -72,7 +84,7 @@ public class ViewSalon extends JFrame implements ActionListener, KeyListener {
 
 		this.Panel1.add(this.PanelNorth, BorderLayout.NORTH);
 		
-		if (isAdmin()) {
+		if (isAdmin(this.monSalon, this.monUtilisateur)) {
 			this.PanelNorth.add(buttonDeleteSalon);
 		}
 
@@ -113,15 +125,25 @@ public class ViewSalon extends JFrame implements ActionListener, KeyListener {
 
 	}
 	
-	public boolean isAdmin(){
-		return true;
+	public boolean isAdmin(Salon s, Utilisateur u){
+		if(s.getCreateurId() == u.getId()){
+			return true;
+		}
+		return false;
 	}
 	
 	public void onButtonSend(){
+		String monMessageStr = this.textAreaMessageToSend.getText();
+		Message monMessage = new Message(this.monUtilisateur.getId(), monMessageStr, this.monSalon);
+		
+		DAOMessage daoMessage = new DAOMessage(myConnection);
+		
+		daoMessage.Envoyer(monMessage, this.monSalon, this.monUtilisateur);
 		
 	}
 	public void getMessage(){
-		
+		DAOMessage daoMessage = new DAOMessage(myConnection);
+		daoMessage.getBySalonId(this.monSalon.getId());
 	}
 	
 	public void onButtonDetruireSalon(){
