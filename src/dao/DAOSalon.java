@@ -124,7 +124,7 @@ public class DAOSalon {
 		try {
 			Statement myStatement = this.connection.createStatement();
 			System.out.println("Supression d'un salon");
-			String requete = "DELETE FROM salon WHERE SAL_NAME = " + "'" + s.getName() + "'";
+			String requete = "DELETE FROM salon WHERE SAL_NAME like " + "'" + s.getName() + "' ;";
 
 			System.out.println("La requete suivante a ete envoyee a la BDD");
 			System.out.println(requete);

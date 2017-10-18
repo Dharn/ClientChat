@@ -50,6 +50,7 @@ public class DAOMessage {
 			while (myResult.next()){
 			Message myMessage = new Message();
 			myMessage.setId(myResult.getInt("MES_ID"));
+			myMessage.setMessage(myResult.getString("MES_MESSAGE"));
 			myMessage.setUserId(myResult.getInt("MES_USER_ID"));
 			myMessage.setDateMessage(myResult.getDate("MES_DATE"));
 			myMessage.setSalonId(myResult.getInt("MES_SALON_ID"));
@@ -124,8 +125,8 @@ public class DAOMessage {
 		try {
 			Statement myStatement = this.connection.createStatement();
 			System.out.println("Envoi du message");
-			String requete = "INSERT INTO message (`MES_USER_ID`, `MES_MESSAGE`, `MES_SALON_ID`) VALUES (" +
-			u.getId() + ", " + "'" + m.getMessage() + "'" +s.getId() + ")";
+			String requete = "INSERT INTO message (MES_USER_ID, MES_MESSAGE, MES_SALON_ID) VALUES (" +
+			u.getId() + ", " + "'" + m.getMessage() + "'," +s.getId() + ");";
 			System.out.println("La requete suivante a ete envoyee a la BDD");
 			System.out.println(requete);
 			myStatement.execute(requete);

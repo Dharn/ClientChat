@@ -12,7 +12,7 @@ import javafx.scene.layout.Border;
 import model.*;
 
 public class ViewListeSalon extends JFrame implements ActionListener, KeyListener, MouseListener, ItemListener {
-	
+
 	private Connection myConnection;
 	private Utilisateur utilisateur = null;
 
@@ -50,22 +50,20 @@ public class ViewListeSalon extends JFrame implements ActionListener, KeyListene
 
 	private List ListSalon = new List();
 	private List ListConnectees = new List();
-	
+
 	private Timer tRefresh;
-	
+
 	private ArrayList<Salon> listeDesSalon = new ArrayList<Salon>();
 	private ArrayList<Salon> listeDesSalonNEW = new ArrayList<Salon>();
 	private ArrayList<Utilisateur> listeDesUtilisateurs = new ArrayList<Utilisateur>();
 	private ArrayList<Utilisateur> listeDesUtilisateursNEW = new ArrayList<Utilisateur>();
-	
-	
+
 	public ViewListeSalon(Connection myConnection) {
 		this.myConnection = myConnection;
 		tRefresh = new Timer(1000, this);
 		tRefresh.start();
 		initialyse();
-		
-		
+
 	}
 
 	public void initialyse() {
@@ -74,7 +72,7 @@ public class ViewListeSalon extends JFrame implements ActionListener, KeyListene
 		this.PanelNorth.setLayout(new GridLayout());
 		this.PanelNorth.setBorder(BorderFactory.createTitledBorder("Connexion"));
 		this.PanelNorthLeft.setLayout(new GridLayout(2, 1));
-		this.PanelNorthRight.setLayout(new GridLayout(2,1));
+		this.PanelNorthRight.setLayout(new GridLayout(2, 1));
 
 		this.PanelNorthSecond.setLayout(new GridLayout());
 		this.PanelNorthSecond.setBorder(BorderFactory.createTitledBorder("Déconnexion"));
@@ -184,13 +182,13 @@ public class ViewListeSalon extends JFrame implements ActionListener, KeyListene
 	public void onButtonconnexion() {
 		DAOUtilisateur DAOu = new DAOUtilisateur(myConnection);
 		try {
-			
+
 			Utilisateur u = DAOu.getByPseudoAndMdp(this.textFieldPseudo.getText(), this.textFieldMdp.getText());
 			this.textFieldMdp.setText("");
 			if (u == null) {
 
 				this.labelInfo.setText("Pseudo ou mot de passe incorrect.");
-				
+
 			} else {
 				this.utilisateur = u;
 				DAOu.Connexion(u);
@@ -206,7 +204,7 @@ public class ViewListeSalon extends JFrame implements ActionListener, KeyListene
 		} catch (Exception e) {
 			this.labelInfo.setText("Erreur de requete sql.");
 		}
-		
+
 	}
 
 	public void onButtonDeconnection() {
@@ -220,49 +218,54 @@ public class ViewListeSalon extends JFrame implements ActionListener, KeyListene
 			this.PanelNorthSecond.setVisible(false);
 			this.PanelNorth.setVisible(true);
 			this.add(this.PanelNorth, BorderLayout.NORTH);
-			this.utilisateur=null;
+			this.utilisateur = null;
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
-		
+
 	}
 
 	public void onButtonRafraichir() {
-		DAOSalon daos = new DAOSalon(myConnection);
-		ArrayList<Salon> salons = daos.getAll();
-		listeDesSalonNEW = salons;
-		for (Salon sNew : listeDesSalonNEW) {
-			boolean estPresent= false;
-			for (Salon s : listeDesSalon) {
-				if (sNew.getName().equals(s.getName())) {
-					estPresent = true;
-				}
-			}
-			if (!estPresent) {
-				listeDesSalon.add(sNew);
-				this.ListSalon.add(sNew.getName());
-			}
-		}
-		for (Salon s : listeDesSalon) {
-			boolean estPresent= false;
+		try {
+			DAOSalon daos = new DAOSalon(myConnection);
+			ArrayList<Salon> salons = daos.getAll();
+			listeDesSalonNEW = salons;
 			for (Salon sNew : listeDesSalonNEW) {
-				if (sNew.getName().equals(s.getName())) {
-					estPresent=true;
+				boolean estPresent = false;
+				for (Salon s : listeDesSalon) {
+					if (sNew.getName().equals(s.getName())) {
+						estPresent = true;
+					}
+				}
+				if (!estPresent) {
+					listeDesSalon.add(sNew);
+					this.ListSalon.add(sNew.getName());
 				}
 			}
-			if (!estPresent) {
-				listeDesSalon.remove(s);
-				this.ListSalon.remove(s.getName());
+			for (Salon s : listeDesSalon) {
+				boolean estPresent = false;
+				for (Salon sNew : listeDesSalonNEW) {
+					if (sNew.getName().equals(s.getName())) {
+						estPresent = true;
+					}
+				}
+				if (!estPresent) {
+					listeDesSalon.remove(s);
+					this.ListSalon.remove(s.getName());
+				}
 			}
+		} catch (Exception e) {
+			System.out.println("can't refresh");
 		}
 
 	}
 
 	public void onButtonCreateSalon() {
-		
+
 		DAOSalon daos = new DAOSalon(myConnection);
 		if (!(this.textFieldNomSalon.getText().equals(""))) {
-			Salon s = new Salon(this.textFieldNomSalon.getText(), this.textFieldMdpSalon.getText(), utilisateur.getId());
+			Salon s = new Salon(this.textFieldNomSalon.getText(), this.textFieldMdpSalon.getText(),
+					utilisateur.getId());
 			try {
 
 				daos.insert(s, this.utilisateur);
@@ -271,51 +274,52 @@ public class ViewListeSalon extends JFrame implements ActionListener, KeyListene
 			} catch (Exception e) {
 				this.labelInfo.setText("impossible de créer le salon.");
 			}
-		}
-		else {
+		} else {
 			this.labelInfo.setText("impossible de créer le salon.");
 		}
-		
-		
 
 	}
 
 	public void onConnectSalon() {
-		
-		if (true) {
-			DAOSalon DAOs = new DAOSalon(myConnection);
-			Salon s = DAOs.getByName(this.ListSalon.getSelectedItem());
-			String mdp = JOptionPane.showInputDialog(this,
-					"entrez le mot de passe du salon " + this.ListSalon.getSelectedItem(),
-					this.ListSalon.getSelectedItem(), JOptionPane.PLAIN_MESSAGE);
-			boolean mdpCorrect = DAOs.checkMDP(mdp, s);
-			if (mdpCorrect) {
-				ViewSalon newsalon = new ViewSalon(s, this.myConnection, this.utilisateur);
-			}
-			else {
-				this.labelInfo.setText("Mot de passe du salon incorrect.");
-			}
-			try {
-				
-				
-			} catch (Exception e) {
-				// TODO: handle exception
-			}
-			
+
+		DAOSalon DAOs = new DAOSalon(myConnection);
+		Salon s = DAOs.getByName(this.ListSalon.getSelectedItem());
+		if (s.getMdp().equals("")) {
+			ViewSalon newsalon = new ViewSalon(s, this.myConnection, this.utilisateur);
 		}
+		else {
+			String mdp = JOptionPane.showInputDialog(this,
+					"entrez le mot de passe du salon " + this.ListSalon.getSelectedItem(), this.ListSalon.getSelectedItem(),
+					JOptionPane.PLAIN_MESSAGE);
+			if (mdp != null) {
+				boolean mdpCorrect = DAOs.checkMDP(mdp, s);
+				if (mdpCorrect) {
+					ViewSalon newsalon = new ViewSalon(s, this.myConnection, this.utilisateur);
+				} else {
+					this.labelInfo.setText("Mot de passe du salon incorrect.");
+				}
+				try {
+
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+			}
+		}
+		
+
 	}
-	
-	public void onButtonCreerUtilisateur(){
+
+	public void onButtonCreerUtilisateur() {
 		DAOUtilisateur DAOu = new DAOUtilisateur(myConnection);
 		try {
 
 			Utilisateur u = new Utilisateur(this.textFieldPseudo.getText(), this.textFieldMdp.getText(), "");
 			this.textFieldMdp.setText("");
-			if (!(u.getPseudo().equals("")) &&  !(u.getMotDePasse().equals(""))) {
-				
+			if (!(u.getPseudo().equals("")) && !(u.getMotDePasse().equals(""))) {
 
 				int choixCreationUtilisateur = JOptionPane.showConfirmDialog(this,
-						"Voulez vous créer un nouvelle utilisateur '"+u.getPseudo()+"' avec les données fournies ? :",
+						"Voulez vous créer un nouvelle utilisateur '" + u.getPseudo()
+								+ "' avec les données fournies ? :",
 						"Création", JOptionPane.YES_NO_OPTION);
 				if (choixCreationUtilisateur == 0) {
 					DAOu.insert(u);
@@ -338,11 +342,11 @@ public class ViewListeSalon extends JFrame implements ActionListener, KeyListene
 
 	public void getConnectees() {
 		DAOUtilisateur DAOu = new DAOUtilisateur(myConnection);
-		ArrayList<Utilisateur> listu= DAOu.getAll();
+		ArrayList<Utilisateur> listu = DAOu.getAll();
 		listeDesUtilisateursNEW = listu;
-		
+
 		for (Utilisateur uNEW : listeDesUtilisateursNEW) {
-			boolean estPresent= false;
+			boolean estPresent = false;
 			for (Utilisateur u : listeDesUtilisateurs) {
 				if (uNEW.getPseudo().equals(u.getPseudo())) {
 					estPresent = true;
@@ -354,10 +358,10 @@ public class ViewListeSalon extends JFrame implements ActionListener, KeyListene
 			}
 		}
 		for (Utilisateur u : listeDesUtilisateurs) {
-			boolean estPresent= false;
+			boolean estPresent = false;
 			for (Utilisateur uNEW : listeDesUtilisateursNEW) {
 				if (uNEW.getPseudo().equals(u.getPseudo())) {
-					estPresent=true;
+					estPresent = true;
 				}
 			}
 			if (!estPresent) {
@@ -370,7 +374,7 @@ public class ViewListeSalon extends JFrame implements ActionListener, KeyListene
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -404,11 +408,11 @@ public class ViewListeSalon extends JFrame implements ActionListener, KeyListene
 		if (e.getSource() == this.buttonCreateSalon) {
 			onButtonCreateSalon();
 		}
-		
+
 		if (e.getSource() == this.buttonCreerUtilisateur) {
 			onButtonCreerUtilisateur();
 		}
-		if (e.getSource()==this.buttonRefresh) {
+		if (e.getSource() == this.buttonRefresh) {
 			onButtonRafraichir();
 		}
 		if (e.getSource() == this.tRefresh) {
@@ -450,7 +454,7 @@ public class ViewListeSalon extends JFrame implements ActionListener, KeyListene
 	public void itemStateChanged(ItemEvent arg0) {
 		if (arg0.getSource() == this.ListSalon) {
 			onConnectSalon();
-			
+
 		}
 
 	}
