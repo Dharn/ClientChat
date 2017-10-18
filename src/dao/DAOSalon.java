@@ -90,8 +90,10 @@ public class DAOSalon {
 			String requete = "SELECT SAL_MDP WHERE SAL_MDP = " + mdpATester + ";";
 			System.out.println("La requete suivante a ete envoyee a la BDD");
 			System.out.println(requete);
-			myStatement.execute(requete);
-			return true;
+			ResultSet myResult = myStatement.executeQuery(requete);
+			if(myResult.next()){
+				return true;
+			}
 		}
 		catch (Exception e) {
 			if (mdpATester == s.getMdp()){

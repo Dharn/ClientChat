@@ -2,6 +2,7 @@ package dao;
 
 import java.sql.*;
 
+import model.Salon;
 import model.Utilisateur;
 
 
@@ -87,6 +88,29 @@ public class DAOUtilisateur {
 		catch (Exception e) {
 			System.out.println("Echec de la deconnexion");
 			}
+	}
+	
+	public boolean checkMDP(String mdpATester, Utilisateur u){
+		try {
+			Statement myStatement = this.connection.createStatement();
+			System.out.println("Verification du mot de passe");
+			String requete = "SELECT UTI_MDP WHERE UTI_MDP = " + mdpATester + ";";
+			System.out.println("La requete suivante a ete envoyee a la BDD");
+			System.out.println(requete);
+			ResultSet myResult = myStatement.executeQuery(requete);
+			if(myResult.next()){
+				return true;
+			}
+		}
+		catch (Exception e) {
+			if (mdpATester == u.getMotDePasse()){
+				return true;
+			}
+			else{
+				System.out.println("Mot de passe incorrect");
+			}
+		}
+		return false;
 	}
 	
 	
