@@ -14,8 +14,14 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 import javax.swing.*;
+
+import dao.DAOClient;
+import dao.DAOMessage;
 
 public class ViewSalon extends JFrame implements ActionListener, KeyListener {
 
