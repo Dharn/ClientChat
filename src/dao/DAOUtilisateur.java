@@ -2,7 +2,6 @@ package dao;
 
 import java.sql.*;
 
-import model.Salon;
 import model.Utilisateur;
 
 
