@@ -75,6 +75,20 @@ public class DAOUtilisateur {
 			
 		}
 	
+	public void Deconnexion(Utilisateur u){
+		try {
+			Statement myStatement = this.connection.createStatement();
+			System.out.println("Deconnexion de " + u.getPseudo());
+			String requete = "UPDATE utilisateur SET UTI_CONNECTED = 0 WHERE UTI_PSEUDO = " + u.getPseudo();
+			System.out.println("La requete suivante a ete envoyee a la BDD");
+			System.out.println(requete);
+			myStatement.execute(requete);
+			}
+		catch (Exception e) {
+			System.out.println("Echec de la deconnexion");
+			}
+	}
+	
 	
 
 }

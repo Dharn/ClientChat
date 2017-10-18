@@ -5,6 +5,7 @@ public class Salon {
 	String name;
 	String mdp;
 	int createurId;
+	boolean connected;
 	
 	public Salon(){
 		
@@ -47,6 +48,10 @@ public class Salon {
 
 	public void setCreateurId(int createurId) {
 		this.createurId = createurId;
+	}
+	
+	public void seDeconnecter(){
+		this.connected = false;
 	}
 	
 	
