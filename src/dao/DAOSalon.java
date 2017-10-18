@@ -6,6 +6,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import model.Salon;
+import model.Utilisateur;
 
 public class DAOSalon {
 	private Connection connection;
@@ -18,7 +19,7 @@ public class DAOSalon {
 		
 		try {
 			Statement myStatement = this.connection.createStatement();
-			ResultSet myResult = myStatement.executeQuery("SELECT * FROM message WHERE SAL_ID = " + id +";");
+			ResultSet myResult = myStatement.executeQuery("SELECT * FROM salon WHERE SAL_ID = " + id +";");
 
 			
 			if (myResult.next()){
@@ -65,5 +66,21 @@ public class DAOSalon {
 			}
 		
 	}
+	
+	public void insert(Salon s, Utilisateur u){
+		try {
+			Statement myStatement = this.connection.createStatement();
+			System.out.println("Ajout d'un nouveau salon a la base de donnees");
+			String requete = "INSERT INTO salon (`SAL_NAME`, `SAL_MDP`, `SAL_CREATEUR_ID`) VALUES (" +
+			"'"+ s.getName() + "'" + ", " + "'" +s.getMdp() + "'" + u.getId()+ ")";
+			System.out.println("La requete suivante a ete envoyee a la BDD");
+			System.out.println(requete);
+			myStatement.execute(requete);
+			}
+		catch (Exception e) {
+			System.out.println("Echec de l'ajout");
+			}
+			
+		}
 	
 }

@@ -4,7 +4,7 @@ public class Utilisateur {
 	int id;
 	String pseudo;
 	String motDePasse;
-	String Avatar;
+	String avatar;
 	boolean connected;
 	
 	public Utilisateur(){
@@ -14,7 +14,7 @@ public class Utilisateur {
 	public Utilisateur(String pseudo, String motDePasse, boolean connected){
 	this.pseudo = pseudo;
 	this.motDePasse = motDePasse;
-	this.connected = connected;
+	this.avatar = avatar;
 	
 	}
 
@@ -43,11 +43,11 @@ public class Utilisateur {
 	}
 
 	public String getAvatar() {
-		return Avatar;
+		return avatar;
 	}
 
 	public void setAvatar(String avatar) {
-		Avatar = avatar;
+		avatar = avatar;
 	}
 
 	public boolean isConnected() {

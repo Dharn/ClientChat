@@ -17,7 +17,7 @@ public class DAOUtilisateur {
 		
 		try {
 			Statement myStatement = this.connection.createStatement();
-			ResultSet myResult = myStatement.executeQuery("SELECT * FROM message WHERE UTI_ID = " + id +";");
+			ResultSet myResult = myStatement.executeQuery("SELECT * FROM utilisateur WHERE UTI_ID = " + id +";");
 
 			
 			if (myResult.next()){
@@ -58,6 +58,22 @@ public class DAOUtilisateur {
 			}
 		return null; 
 	}
+	
+	public void insert(Utilisateur u){
+		try {
+			Statement myStatement = this.connection.createStatement();
+			System.out.println("Ajout d'un nouvel utilisateur a la base de donnees");
+			String requete = "INSERT INTO utilisateur (`UTI_PSEUDO`, `UTI_MDP`, `UTI_AVATAR`) VALUES (" +
+			u.getId() + ", " + "'" +u.getPseudo()+ "'" + "'" + u.getMotDePasse() + "'" + ", " + "'" + u.getAvatar() + "'" + ")";
+			System.out.println("La requete suivante a ete envoyee a la BDD");
+			System.out.println(requete);
+			myStatement.execute(requete);
+			}
+		catch (Exception e) {
+			System.out.println("Echec de l'ajout");
+			}
+			
+		}
 	
 	
 
