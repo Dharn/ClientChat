@@ -40,7 +40,7 @@ public class DAOSalon {
 	public ArrayList<Salon> getAll(){
 		
 		try {
-			System.out.println("Obtention de tous les salons");
+			System.out.println("Raffraichissement de la liste des salons disponibles");
 			Statement myStatement = this.connection.createStatement();
 			ResultSet myResult = myStatement.executeQuery("SELECT * FROM salon;");
 			
@@ -82,5 +82,26 @@ public class DAOSalon {
 			}
 			
 		}
+	
+	public boolean checkMDP(String mdpATester, Salon s){
+		try {
+			Statement myStatement = this.connection.createStatement();
+			System.out.println("Verification du mot de passe");
+			String requete = "SELECT SAL_MDP WHERE SAL_MDP = " + mdpATester + ";";
+			System.out.println("La requete suivante a ete envoyee a la BDD");
+			System.out.println(requete);
+			myStatement.execute(requete);
+			return true;
+		}
+		catch (Exception e) {
+			if (mdpATester == s.getMdp()){
+				return true;
+			}
+			else{
+				System.out.println("Mot de passe incorrect");
+			}
+		}
+		return false;
+	}
 	
 }
