@@ -1,27 +1,18 @@
 package View;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.GridLayout;
-import java.awt.List;
-import java.awt.ScrollPane;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.*;
+import java.awt.event.*;
+import java.sql.*;
 
 import javax.swing.*;
 
+import dao.*;
 import javafx.scene.layout.Border;
 
 public class ViewListeSalon extends JFrame implements ActionListener, KeyListener, MouseListener, ItemListener {
 
+	
+	Connection myConnection;
 	private JPanel PanelNorth = new JPanel();
 	private JPanel PanelNorthLeft = new JPanel();
 	private JPanel PanelNorthRight = new JPanel();
@@ -37,6 +28,7 @@ public class ViewListeSalon extends JFrame implements ActionListener, KeyListene
 	private JPanel PanelSouthNorthLeft = new JPanel();
 	private JPanel PanelSouthNorthRight = new JPanel();
 	private JPanel PanelSouthCenter = new JPanel();
+	private JPanel PanelSouthSouth = new JPanel();
 
 	private JLabel labelListeSalon = new JLabel("Liste des salons :");
 
@@ -53,8 +45,10 @@ public class ViewListeSalon extends JFrame implements ActionListener, KeyListene
 	private JButton buttonDeconnecter = new JButton("Se déconnecter");
 
 	private List ListSalon = new List();
+	private List ListConnectees = new List();
 
-	public ViewListeSalon() {
+	public ViewListeSalon(Connection myConnection) {
+		this.myConnection = myConnection;
 		initialyse();
 	}
 
@@ -80,7 +74,8 @@ public class ViewListeSalon extends JFrame implements ActionListener, KeyListene
 		this.PanelSouthNorth.setBorder(BorderFactory.createTitledBorder("Création d'un salon"));
 		this.PanelSouthNorthLeft.setLayout(new GridLayout(2, 1));
 		this.PanelSouthNorthRight.setLayout(new FlowLayout());
-		this.PanelSouthCenter.setLayout(new BorderLayout());
+		this.PanelSouthCenter.setLayout(new GridLayout());
+		this.PanelSouthSouth.setLayout(new BorderLayout());
 
 		// ajout des components dans les panels
 
@@ -111,8 +106,10 @@ public class ViewListeSalon extends JFrame implements ActionListener, KeyListene
 		this.PanelSouthNorth.add(this.PanelSouthNorthRight, BorderLayout.EAST);
 		this.PanelSouthNorthRight.add(this.buttonCreateSalon);
 		this.PanelSouth.add(this.PanelSouthCenter, BorderLayout.CENTER);
-		this.PanelSouthCenter.add(this.labelInfo);
+		this.PanelSouthCenter.add(this.ListConnectees);
 
+		this.PanelSouth.add(this.PanelSouthSouth, BorderLayout.SOUTH);
+		this.PanelSouthSouth.add(this.labelInfo);
 		// add wrap and scroll
 
 		// On ajoute les évènements sur les boutons
@@ -154,7 +151,9 @@ public class ViewListeSalon extends JFrame implements ActionListener, KeyListene
 
 		// set invisible tant que pas connecté
 		this.PanelCenter.setVisible(false);
-		this.PanelSouth.setVisible(false);
+		this.PanelSouthCenter.setVisible(false);
+		this.PanelSouthNorth.setVisible(false);
+		this.PanelSouthSouth.setVisible(true);
 		this.PanelNorthSecond.setVisible(false);
 		this.PanelNorth.setVisible(true);
 		// pop up
@@ -169,23 +168,27 @@ public class ViewListeSalon extends JFrame implements ActionListener, KeyListene
 
 	public void onButtonconnexion() {
 		this.PanelCenter.setVisible(true);
-		this.PanelSouth.setVisible(true);
-		this.PanelNorth.setVisible(false);
+		this.PanelSouthCenter.setVisible(true);
+		this.PanelSouthNorth.setVisible(true);
+		this.PanelSouthSouth.setVisible(true);
 		this.PanelNorthSecond.setVisible(true);
+		this.PanelNorth.setVisible(false);
 		this.add(this.PanelNorthSecond, BorderLayout.NORTH);
-
 	}
 
 	public void onButtonDeconnection() {
 		this.PanelCenter.setVisible(false);
-		this.PanelSouth.setVisible(false);
-		this.PanelNorth.setVisible(true);
+		this.PanelSouthCenter.setVisible(false);
+		this.PanelSouthNorth.setVisible(false);
+		this.PanelSouthSouth.setVisible(true);
 		this.PanelNorthSecond.setVisible(false);
+		this.PanelNorth.setVisible(true);
 		this.add(this.PanelNorth, BorderLayout.NORTH);
 	}
 
 	public void onButtonRafraichir() {
-
+		DAOSalon daos = new DAOSalon(myConnection);
+		
 	}
 
 	public void onButtonCreateSalon() {
@@ -194,6 +197,10 @@ public class ViewListeSalon extends JFrame implements ActionListener, KeyListene
 
 	public void onConnectSalon() {
 
+	}
+	
+	public void getConnectees(){
+		
 	}
 
 	@Override
@@ -271,7 +278,7 @@ public class ViewListeSalon extends JFrame implements ActionListener, KeyListene
 					"entrez le mot de passe du salon " + this.ListSalon.getSelectedItem(),
 					this.ListSalon.getSelectedItem(), JOptionPane.PLAIN_MESSAGE);
 			if (true) {
-				ViewSalon newsalon = new ViewSalon(this.ListSalon.getSelectedItem());
+				ViewSalon newsalon = new ViewSalon(this.ListSalon.getSelectedItem(), myConnection);
 			}
 		}
 
