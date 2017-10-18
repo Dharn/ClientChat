@@ -83,6 +83,7 @@ public class DAOSalon {
 			
 		}
 	
+	
 	public boolean checkMDP(String mdpATester, Salon s){
 		try {
 			Statement myStatement = this.connection.createStatement();

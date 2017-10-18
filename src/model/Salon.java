@@ -1,11 +1,12 @@
 package model;
 
+import java.util.ArrayList;
+
 public class Salon {
-	int id;
-	String name;
-	String mdp;
-	int createurId;
-	boolean connected;
+	private int id;
+	private String name;
+	private String mdp;
+	private int createurId;
 	
 	public Salon(){
 		
@@ -50,9 +51,6 @@ public class Salon {
 		this.createurId = createurId;
 	}
 	
-	public void seDeconnecter(){
-		this.connected = false;
-	}
 	
 	
 }
