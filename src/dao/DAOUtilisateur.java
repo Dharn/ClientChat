@@ -63,14 +63,18 @@ public class DAOUtilisateur {
 		try {
 			Statement myStatement = this.connection.createStatement();
 			System.out.println("Ajout d'un nouvel utilisateur a la base de donnees");
-			String requete = "INSERT INTO utilisateur (`UTI_PSEUDO`, `UTI_MDP`, `UTI_AVATAR`) VALUES (" +
-			u.getId() + ", " + "'" +u.getPseudo()+ "'" + "'" + u.getMotDePasse() + "'" + ", " + "'" + u.getAvatar() + "'" + ")";
+			String requete = "INSERT INTO utilisateur (`UTI_PSEUDO`, `UTI_MDP`, `UTI_AVATAR`) VALUES ('" +u.getPseudo()+ "'" + ",'" + u.getMotDePasse() + "'" + ", " + "'" + u.getAvatar() + "'" + ");";
 			System.out.println("La requete suivante a ete envoyee a la BDD");
 			System.out.println(requete);
-			myStatement.execute(requete);
+			if (myStatement.execute(requete)) {
+				System.out.println("succès");
+			}
+			else {
+				System.out.println("Echec de l'ajout");
+			}
 			}
 		catch (Exception e) {
-			System.out.println("Echec de l'ajout");
+			
 			}
 			
 		}

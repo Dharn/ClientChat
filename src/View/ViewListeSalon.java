@@ -12,11 +12,10 @@ import javafx.scene.layout.Border;
 import model.*;
 
 public class ViewListeSalon extends JFrame implements ActionListener, KeyListener, MouseListener, ItemListener {
-
 	
 	private Connection myConnection;
 	private Utilisateur utilisateur = null;
-	
+
 	private JPanel PanelNorth = new JPanel();
 	private JPanel PanelNorthLeft = new JPanel();
 	private JPanel PanelNorthRight = new JPanel();
@@ -47,6 +46,7 @@ public class ViewListeSalon extends JFrame implements ActionListener, KeyListene
 	private JButton buttonRefresh = new JButton("Raffraichir");
 	private JButton buttonCreateSalon = new JButton("Créer le salon");
 	private JButton buttonDeconnecter = new JButton("Se déconnecter");
+	private JButton buttonCreerUtilisateur = new JButton("créer un utilisateur");
 
 	private List ListSalon = new List();
 	private List ListConnectees = new List();
@@ -62,7 +62,7 @@ public class ViewListeSalon extends JFrame implements ActionListener, KeyListene
 		this.PanelNorth.setLayout(new GridLayout());
 		this.PanelNorth.setBorder(BorderFactory.createTitledBorder("Connexion"));
 		this.PanelNorthLeft.setLayout(new GridLayout(2, 1));
-		this.PanelNorthRight.setLayout(new FlowLayout());
+		this.PanelNorthRight.setLayout(new GridLayout(2,1));
 
 		this.PanelNorthSecond.setLayout(new GridLayout());
 		this.PanelNorthSecond.setBorder(BorderFactory.createTitledBorder("Déconnexion"));
@@ -90,6 +90,7 @@ public class ViewListeSalon extends JFrame implements ActionListener, KeyListene
 		this.PanelNorthLeft.add(this.textFieldPseudo);
 		this.PanelNorthLeft.add(this.textFieldMdp);
 		this.PanelNorthRight.add(this.buttonConnect);
+		this.PanelNorthRight.add(this.buttonCreerUtilisateur);
 
 		this.PanelNorthSecond.add(this.buttonDeconnecter);
 
@@ -118,6 +119,7 @@ public class ViewListeSalon extends JFrame implements ActionListener, KeyListene
 
 		// On ajoute les évènements sur les boutons
 		this.buttonConnect.addActionListener(this);
+		this.buttonCreerUtilisateur.addActionListener(this);
 		this.buttonDeconnecter.addActionListener(this);
 		this.buttonCreateSalon.addActionListener(this);
 		this.buttonRefresh.addActionListener(this);
@@ -171,13 +173,30 @@ public class ViewListeSalon extends JFrame implements ActionListener, KeyListene
 	}
 
 	public void onButtonconnexion() {
-		this.PanelCenter.setVisible(true);
-		this.PanelSouthCenter.setVisible(true);
-		this.PanelSouthNorth.setVisible(true);
-		this.PanelSouthSouth.setVisible(true);
-		this.PanelNorthSecond.setVisible(true);
-		this.PanelNorth.setVisible(false);
-		this.add(this.PanelNorthSecond, BorderLayout.NORTH);
+		DAOUtilisateur DAOu = new DAOUtilisateur(myConnection);
+		try {
+			
+			Utilisateur u = DAOu.getByPseudoAndMdp(this.textFieldPseudo.getText(), this.textFieldMdp.getText());
+			this.textFieldMdp.setText("");
+			if (u == null) {
+
+				this.labelInfo.setText("Pseudo ou mot de passe incorrect.");
+				
+			} else {
+				this.utilisateur = u;
+				this.PanelCenter.setVisible(true);
+				this.PanelSouthCenter.setVisible(true);
+				this.PanelSouthNorth.setVisible(true);
+				this.PanelSouthSouth.setVisible(true);
+				this.PanelNorthSecond.setVisible(true);
+				this.PanelNorth.setVisible(false);
+				this.add(this.PanelNorthSecond, BorderLayout.NORTH);
+			}
+
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
 	}
 
 	public void onButtonDeconnection() {
@@ -194,30 +213,64 @@ public class ViewListeSalon extends JFrame implements ActionListener, KeyListene
 		DAOSalon daos = new DAOSalon(myConnection);
 		ArrayList<Salon> salons = daos.getAll();
 		this.ListSalon.removeAll();
-		
+
 		for (Salon salon : salons) {
 			this.ListSalon.add(salon.getName());
 		}
-		
+
 	}
 
 	public void onButtonCreateSalon() {
+		this.labelInfo.setText("impossible de créer le salon.");
 		DAOSalon daos = new DAOSalon(myConnection);
 		Salon s = new Salon(this.textFieldNomSalon.getText(), this.textFieldMdpSalon.getText(), utilisateur.getId());
 		try {
+
 			daos.insert(s, utilisateur);
+			this.labelInfo.setText("Salon crée.");
 		} catch (Exception e) {
-			// TODO: handle exception
+			this.labelInfo.setText("impossible de créer le salon.");
 		}
-		
+
 	}
 
 	public void onConnectSalon() {
 
 	}
 	
-	public void getConnectees(){
-		
+	public void onButtonCreerUtilisateur(){
+		DAOUtilisateur DAOu = new DAOUtilisateur(myConnection);
+		try {
+
+			Utilisateur u = new Utilisateur(this.textFieldPseudo.getText(), this.textFieldMdp.getText(), "");
+			this.textFieldMdp.setText("");
+			if (!(u.getPseudo().equals("")) &&  !(u.getMotDePasse().equals(""))) {
+				
+
+				int choixCreationUtilisateur = JOptionPane.showConfirmDialog(this,
+						"Voulez vous créer un nouvelle utilisateur '"+u.getPseudo()+"' avec les données fournies ? :",
+						"Création", JOptionPane.YES_NO_OPTION);
+				if (choixCreationUtilisateur == 0) {
+					DAOu.insert(u);
+					this.PanelCenter.setVisible(true);
+					this.PanelSouthCenter.setVisible(true);
+					this.PanelSouthNorth.setVisible(true);
+					this.PanelSouthSouth.setVisible(true);
+					this.PanelNorthSecond.setVisible(true);
+					this.PanelNorth.setVisible(false);
+					this.add(this.PanelNorthSecond, BorderLayout.NORTH);
+					this.utilisateur = u;
+					this.labelInfo.setText("Utilisateur crée.");
+				}
+			}
+
+		} catch (Exception e) {
+			this.labelInfo.setText("Impossible de créer l'utilisateur.");
+		}
+	}
+
+	public void getConnectees() {
+
 	}
 
 	@Override
@@ -256,6 +309,10 @@ public class ViewListeSalon extends JFrame implements ActionListener, KeyListene
 		}
 		if (e.getSource() == this.buttonCreateSalon) {
 
+		}
+		
+		if (e.getSource() == this.buttonCreerUtilisateur) {
+			onButtonCreerUtilisateur();
 		}
 	}
 
