@@ -3,16 +3,20 @@ package View;
 import java.awt.*;
 import java.awt.event.*;
 import java.sql.*;
+import java.util.ArrayList;
 
 import javax.swing.*;
 
 import dao.*;
 import javafx.scene.layout.Border;
+import model.*;
 
 public class ViewListeSalon extends JFrame implements ActionListener, KeyListener, MouseListener, ItemListener {
 
 	
-	Connection myConnection;
+	private Connection myConnection;
+	private Utilisateur utilisateur = null;
+	
 	private JPanel PanelNorth = new JPanel();
 	private JPanel PanelNorthLeft = new JPanel();
 	private JPanel PanelNorthRight = new JPanel();
@@ -188,11 +192,24 @@ public class ViewListeSalon extends JFrame implements ActionListener, KeyListene
 
 	public void onButtonRafraichir() {
 		DAOSalon daos = new DAOSalon(myConnection);
+		ArrayList<Salon> salons = daos.getAll();
+		this.ListSalon.removeAll();
+		
+		for (Salon salon : salons) {
+			this.ListSalon.add(salon.getName());
+		}
 		
 	}
 
 	public void onButtonCreateSalon() {
-
+		DAOSalon daos = new DAOSalon(myConnection);
+		Salon s = new Salon(this.textFieldNomSalon.getText(), this.textFieldMdpSalon.getText(), utilisateur.getId());
+		try {
+			daos.insert(s, utilisateur);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
 	}
 
 	public void onConnectSalon() {
