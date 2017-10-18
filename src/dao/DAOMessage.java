@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 
 import model.Message;
+import model.Salon;
+import model.Utilisateur;
 
 
 public class DAOMessage {
@@ -60,5 +62,21 @@ public class DAOMessage {
 			}
 		return null; 
 	}
+	
+	public void Envoyer(Message m, Salon s, Utilisateur u){
+		try {
+			Statement myStatement = this.connection.createStatement();
+			System.out.println("Envoi du message");
+			String requete = "INSERT INTO message (`MES_USER_ID`, `MES_MESSAGE`, `MES_SALON_ID`) VALUES (" +
+			u.getId() + ", " + "'" + m.getMessage() + "'" +s.getId() + ")";
+			System.out.println("La requete suivante a ete envoyee a la BDD");
+			System.out.println(requete);
+			myStatement.execute(requete);
+			}
+		catch (Exception e) {
+			System.out.println("Echec de l'envoi");
+			}
+			
+		}
 	
 }

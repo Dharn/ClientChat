@@ -6,6 +6,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import model.Salon;
+import model.Utilisateur;
 
 public class DAOSalon {
 	private Connection connection;
@@ -18,7 +19,7 @@ public class DAOSalon {
 		
 		try {
 			Statement myStatement = this.connection.createStatement();
-			ResultSet myResult = myStatement.executeQuery("SELECT * FROM message WHERE SAL_ID = " + id +";");
+			ResultSet myResult = myStatement.executeQuery("SELECT * FROM salon WHERE SAL_ID = " + id +";");
 
 			
 			if (myResult.next()){
@@ -39,7 +40,7 @@ public class DAOSalon {
 	public ArrayList<Salon> getAll(){
 		
 		try {
-			System.out.println("Obtention de tous les salons");
+			System.out.println("Raffraichissement de la liste des salons disponibles");
 			Statement myStatement = this.connection.createStatement();
 			ResultSet myResult = myStatement.executeQuery("SELECT * FROM salon;");
 			
@@ -64,6 +65,45 @@ public class DAOSalon {
 			return null;
 			}
 		
+	}
+	
+	public void insert(Salon s, Utilisateur u){
+		try {
+			Statement myStatement = this.connection.createStatement();
+			System.out.println("Ajout d'un nouveau salon a la base de donnees");
+			String requete = "INSERT INTO salon (`SAL_NAME`, `SAL_MDP`, `SAL_CREATEUR_ID`) VALUES (" +
+			"'"+ s.getName() + "'" + ", " + "'" +s.getMdp() + "'" + u.getId()+ ")";
+			System.out.println("La requete suivante a ete envoyee a la BDD");
+			System.out.println(requete);
+			myStatement.execute(requete);
+			}
+		catch (Exception e) {
+			System.out.println("Echec de l'ajout");
+			}
+			
+		}
+	
+	public boolean checkMDP(String mdpATester, Salon s){
+		try {
+			Statement myStatement = this.connection.createStatement();
+			System.out.println("Verification du mot de passe");
+			String requete = "SELECT SAL_MDP WHERE SAL_MDP = " + mdpATester + ";";
+			System.out.println("La requete suivante a ete envoyee a la BDD");
+			System.out.println(requete);
+			ResultSet myResult = myStatement.executeQuery(requete);
+			if(myResult.next()){
+				return true;
+			}
+		}
+		catch (Exception e) {
+			if (mdpATester == s.getMdp()){
+				return true;
+			}
+			else{
+				System.out.println("Mot de passe incorrect");
+			}
+		}
+		return false;
 	}
 	
 }
