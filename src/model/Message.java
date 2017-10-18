@@ -4,7 +4,7 @@ import java.sql.Date;
 
 public class Message {
 	int id;
-	String userId;
+	int userId;
 	String message;
 	Date dateMessage;
 	int salonId;
@@ -13,10 +13,9 @@ public class Message {
 		
 	}
 	
-	public Message(String userId, String message, Date dateMessage, int salonId){
+	public Message(int userId, String message, int salonId){
 		this.userId = userId;
 		this.message = message;
-		this.dateMessage = dateMessage;
 		this.salonId = salonId;
 	}
 
@@ -28,11 +27,11 @@ public class Message {
 		this.id = id;
 	}
 
-	public String getUserId() {
+	public int getUserId() {
 		return userId;
 	}
 
-	public void setUserId(String userId) {
+	public void setUserId(int userId) {
 		this.userId = userId;
 	}
 
