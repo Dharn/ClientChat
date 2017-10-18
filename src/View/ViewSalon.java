@@ -62,6 +62,7 @@ public class ViewSalon extends JFrame implements ActionListener, KeyListener {
 		this.monSalon = monSalon;
 		this.myConnection = myConnection;
 		initialyse();
+		
 	}
 
 	public void initialyse() {
@@ -184,6 +185,7 @@ public class ViewSalon extends JFrame implements ActionListener, KeyListener {
 			this.textAreaDiscussion.setText(this.textAreaDiscussion.getText()+this.textAreaMessageToSend.getText()+"\n");
 			this.textAreaMessageToSend.setText("");
 		}
+		
 		
 	}
 
