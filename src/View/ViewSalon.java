@@ -134,13 +134,14 @@ public class ViewSalon extends JFrame implements ActionListener, KeyListener {
 	
 	public void onButtonSend(){
 		String monMessageStr = this.textAreaMessageToSend.getText();
-		Message monMessage = new Message(this.monUtilisateur.getId(), monMessageStr, this.monSalon);
+		Message monMessage = new Message(this.monUtilisateur.getId(), monMessageStr, this.monSalon.getId());
 		
 		DAOMessage daoMessage = new DAOMessage(myConnection);
 		
 		daoMessage.Envoyer(monMessage, this.monSalon, this.monUtilisateur);
 		
 	}
+	
 	public void getMessage(){
 		DAOMessage daoMessage = new DAOMessage(myConnection);
 		daoMessage.getBySalonId(this.monSalon.getId());
