@@ -166,10 +166,7 @@ public class ViewListeSalon extends JFrame implements ActionListener, KeyListene
 		// JOptionPane.showMessageDialog(null, textFieldPseudo);
 
 		// test interface
-		for (int i = 0; i < 50; i++) {
-			this.ListSalon.add("test" + i);
-
-		}
+		onButtonRafraichir();
 	}
 
 	public void onButtonconnexion() {
@@ -184,6 +181,7 @@ public class ViewListeSalon extends JFrame implements ActionListener, KeyListene
 				
 			} else {
 				this.utilisateur = u;
+				DAOu.Connexion(u);
 				this.PanelCenter.setVisible(true);
 				this.PanelSouthCenter.setVisible(true);
 				this.PanelSouthNorth.setVisible(true);
@@ -194,19 +192,27 @@ public class ViewListeSalon extends JFrame implements ActionListener, KeyListene
 			}
 
 		} catch (Exception e) {
-			// TODO: handle exception
+			this.labelInfo.setText("Erreur de requete sql.");
 		}
 		
 	}
 
 	public void onButtonDeconnection() {
-		this.PanelCenter.setVisible(false);
-		this.PanelSouthCenter.setVisible(false);
-		this.PanelSouthNorth.setVisible(false);
-		this.PanelSouthSouth.setVisible(true);
-		this.PanelNorthSecond.setVisible(false);
-		this.PanelNorth.setVisible(true);
-		this.add(this.PanelNorth, BorderLayout.NORTH);
+		DAOUtilisateur DAOu = new DAOUtilisateur(myConnection);
+		try {
+			DAOu.Deconnexion(this.utilisateur);
+			this.PanelCenter.setVisible(false);
+			this.PanelSouthCenter.setVisible(false);
+			this.PanelSouthNorth.setVisible(false);
+			this.PanelSouthSouth.setVisible(true);
+			this.PanelNorthSecond.setVisible(false);
+			this.PanelNorth.setVisible(true);
+			this.add(this.PanelNorth, BorderLayout.NORTH);
+			this.utilisateur=null;
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
 	}
 
 	public void onButtonRafraichir() {
@@ -221,16 +227,24 @@ public class ViewListeSalon extends JFrame implements ActionListener, KeyListene
 	}
 
 	public void onButtonCreateSalon() {
-		this.labelInfo.setText("impossible de créer le salon.");
+		
 		DAOSalon daos = new DAOSalon(myConnection);
-		Salon s = new Salon(this.textFieldNomSalon.getText(), this.textFieldMdpSalon.getText(), utilisateur.getId());
-		try {
+		if (!(this.textFieldNomSalon.getText().equals(""))) {
+			Salon s = new Salon(this.textFieldNomSalon.getText(), this.textFieldMdpSalon.getText(), utilisateur.getId());
+			try {
 
-			daos.insert(s, utilisateur);
-			this.labelInfo.setText("Salon crée.");
-		} catch (Exception e) {
+				daos.insert(s, this.utilisateur);
+				this.labelInfo.setText("Salon crée.");
+				onButtonRafraichir();
+			} catch (Exception e) {
+				this.labelInfo.setText("impossible de créer le salon.");
+			}
+		}
+		else {
 			this.labelInfo.setText("impossible de créer le salon.");
 		}
+		
+		
 
 	}
 
@@ -270,13 +284,23 @@ public class ViewListeSalon extends JFrame implements ActionListener, KeyListene
 	}
 
 	public void getConnectees() {
-
+		DAOUtilisateur DAOu = new DAOUtilisateur(myConnection);
+		try {
+			ArrayList<Utilisateur> listu= DAOu.getAll();
+			this.ListConnectees.removeAll();
+			for (Utilisateur utilisateur : listu) {
+				this.ListConnectees.add(utilisateur.getPseudo());
+			}
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 	}
 
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
@@ -308,11 +332,14 @@ public class ViewListeSalon extends JFrame implements ActionListener, KeyListene
 			onButtonDeconnection();
 		}
 		if (e.getSource() == this.buttonCreateSalon) {
-
+			onButtonCreateSalon();
 		}
 		
 		if (e.getSource() == this.buttonCreerUtilisateur) {
 			onButtonCreerUtilisateur();
+		}
+		if (e.getSource()==this.buttonRefresh) {
+			onButtonRafraichir();
 		}
 	}
 

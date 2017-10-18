@@ -71,8 +71,8 @@ public class DAOSalon {
 		try {
 			Statement myStatement = this.connection.createStatement();
 			System.out.println("Ajout d'un nouveau salon a la base de donnees");
-			String requete = "INSERT INTO salon (`SAL_NAME`, `SAL_MDP`, `SAL_CREATEUR_ID`) VALUES (" +
-			"'"+ s.getName() + "'" + ", " + "'" +s.getMdp() + "'" + u.getId()+ ")";
+			String requete = "INSERT INTO salon (SAL_NAME, SAL_MDP, SAL_CREATEUR_ID) VALUES (" +
+			"'"+ s.getName() + "'" + ", " + "'" +s.getMdp() + "'," + u.getId()+ ");";
 			System.out.println("La requete suivante a ete envoyee a la BDD");
 			System.out.println(requete);
 			myStatement.execute(requete);
