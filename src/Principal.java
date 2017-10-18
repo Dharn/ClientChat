@@ -4,18 +4,19 @@ import View.ViewListeSalon;
 
 public class Principal {
 	
-	
-	
 	public static void main(String[] args) {
-		try {
-			Connection myConnection;
-			
+		
+		
+		
+		try{
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection myConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/chat", "root", "");
 			ViewListeSalon l = new ViewListeSalon(myConnection);
-		} catch (Exception e) {
-			// TODO: handle exception
+			
 		}
-		
-		
+		catch (Exception e){
+			System.out.println("Connexion impossible");
+		}
 
 	}
 

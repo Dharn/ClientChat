@@ -15,8 +15,9 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.sql.*;
-
 import javax.swing.*;
+
+import dao.*;
 
 public class ViewSalon extends JFrame implements ActionListener, KeyListener {
 	
