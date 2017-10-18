@@ -63,6 +63,37 @@ public class DAOMessage {
 		return null; 
 	}
 	
+	public ArrayList<Message> Refresh(ArrayList<Message> messagesConversation){
+		ArrayList<Message> messages = new ArrayList<Message>();
+		try {
+			Statement myStatement = this.connection.createStatement();
+			ResultSet myResult = myStatement.executeQuery("SELECT * FROM message ;");
+
+			
+			while (myResult.next()){
+			Message myMessage = new Message();
+			myMessage.setId(myResult.getInt("MES_ID"));
+			myMessage.setUserId(myResult.getInt("MES_USER_ID"));
+			myMessage.setDateMessage(myResult.getDate("MES_DATE"));
+			myMessage.setSalonId(myResult.getInt("MES_SALON_ID"));
+			messages.add(myMessage);
+			}
+			if (messagesConversation.size() < messages.size()){
+				ArrayList<Message> nouveauxMessages = new ArrayList<Message>();
+				while(messagesConversation.size() != nouveauxMessages.size()){
+					nouveauxMessages.add(messages.get(messagesConversation.size()));
+					messagesConversation.add(messages.get(messagesConversation.size()));
+				}
+				return nouveauxMessages;
+			}
+			return null;
+			}
+		catch(Exception e) {
+			System.out.println("Impossible de se connecter");
+			}
+		return null; 
+	}
+	
 	public ArrayList<Message> getBySalonId(int salonId){
 		
 		try {
@@ -86,6 +117,8 @@ public class DAOMessage {
 			}
 		return null; 
 	}
+	
+	
 	
 	public void Envoyer(Message m, Salon s, Utilisateur u){
 		try {
