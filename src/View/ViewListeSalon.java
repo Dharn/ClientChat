@@ -60,7 +60,7 @@ public class ViewListeSalon extends JFrame implements ActionListener, KeyListene
 
 	public ViewListeSalon(Connection myConnection) {
 		this.myConnection = myConnection;
-		tRefresh = new Timer(1000, this);
+		tRefresh = new Timer(2000, this);
 		tRefresh.start();
 		initialyse();
 
@@ -240,7 +240,7 @@ public class ViewListeSalon extends JFrame implements ActionListener, KeyListene
 				if (!estPresent) {
 					listeDesSalon.add(sNew);
 					this.ListSalon.add(sNew.getName());
-					this.ListSalon.add(sNew.getMdp());
+					this.ListSalon.add("mdp =="+sNew.getMdp());
 				}
 			}
 			for (Salon s : listeDesSalon) {
@@ -253,7 +253,7 @@ public class ViewListeSalon extends JFrame implements ActionListener, KeyListene
 				if (!estPresent) {
 					listeDesSalon.remove(s);
 					this.ListSalon.remove(s.getName());
-					this.ListSalon.remove(s.getMdp());
+					this.ListSalon.remove("mdp =="+s.getMdp());
 				}
 			}
 		} catch (Exception e) {

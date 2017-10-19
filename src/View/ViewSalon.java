@@ -71,7 +71,7 @@ public class ViewSalon extends JFrame implements ActionListener, KeyListener, Wi
 		this.monSalon = monSalon;
 		this.myConnection = myConnection;
 		this.monUtilisateur = u;
-		tRefresh = new Timer(100, this);
+		tRefresh = new Timer(400, this);
 		tRefresh.start();
 		initialyse();
 
@@ -82,7 +82,7 @@ public class ViewSalon extends JFrame implements ActionListener, KeyListener, Wi
 		this.setLayout(new GridLayout());
 
 		this.Panel1.setLayout(new BorderLayout());
-		this.Panel1.setBorder(BorderFactory.createTitledBorder("Salon : " + this.nomDuSalon));
+		this.Panel1.setBorder(BorderFactory.createTitledBorder("Salon : " + this.monSalon.getName()));
 
 		this.PanelNorth.setLayout(new GridLayout(1, 2));
 
@@ -137,7 +137,7 @@ public class ViewSalon extends JFrame implements ActionListener, KeyListener, Wi
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);
 		// this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		this.setTitle(this.nomDuSalon);
+		this.setTitle(this.monSalon.getName());
 
 	}
 
