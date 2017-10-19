@@ -287,6 +287,7 @@ public class ViewListeSalon extends JFrame implements ActionListener, KeyListene
 		DAOSalon DAOs = new DAOSalon(myConnection);
 		System.out.println(this.ListSalon.getSelectedItem());
 		Salon s = DAOs.getByName(this.ListSalon.getSelectedItem());
+
 		if (s!=null) {
 			if (s.getMdp()== null) {
 				ViewSalon newsalon = new ViewSalon(s, this.myConnection, this.utilisateur);
