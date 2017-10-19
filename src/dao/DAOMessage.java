@@ -63,6 +63,29 @@ public class DAOMessage {
 			}
 		return null; 
 	}
+	public ArrayList<Message> getAllBySalon(Salon salon){
+		ArrayList<Message> messages = new ArrayList<Message>();
+		try {
+			Statement myStatement = this.connection.createStatement();
+			ResultSet myResult = myStatement.executeQuery("SELECT * FROM message where MES_SALON_ID like '"+salon.getId()+"' ;");
+
+			
+			while (myResult.next()){
+			Message myMessage = new Message();
+			myMessage.setId(myResult.getInt("MES_ID"));
+			myMessage.setMessage(myResult.getString("MES_MESSAGE"));
+			myMessage.setUserId(myResult.getInt("MES_USER_ID"));
+			myMessage.setDateMessage(myResult.getDate("MES_DATE"));
+			myMessage.setSalonId(myResult.getInt("MES_SALON_ID"));
+			messages.add(myMessage);
+			}
+			return messages;
+			}
+		catch(Exception e) {
+			System.out.println("Impossible de se connecter");
+			}
+		return null; 
+	}
 	
 	public ArrayList<Message> Refresh(ArrayList<Message> messagesConversation){
 		ArrayList<Message> messages = new ArrayList<Message>();
