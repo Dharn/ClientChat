@@ -152,7 +152,6 @@ public class ViewSalon extends JFrame implements ActionListener, KeyListener, Wi
 	}
 
 	public void refreshMessages() {
-		System.out.println("refresh messages");
 		DAOMessage daoMessage = new DAOMessage(myConnection);
 		ArrayList<Message> conversation = new ArrayList<Message>();
 		conversation = daoMessage.getAllBySalon(this.monSalon);
