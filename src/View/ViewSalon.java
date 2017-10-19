@@ -2,6 +2,7 @@ package View;
 
 import java.awt.AWTEvent;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Event;
 import java.awt.FlowLayout;
@@ -18,9 +19,11 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowListener;
 import java.sql.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import javax.swing.*;
+import javax.swing.text.*;
 
 import com.sun.glass.events.WindowEvent;
 
@@ -101,7 +104,9 @@ public class ViewSalon extends JFrame implements ActionListener, KeyListener, Wi
 		this.PanelCenter.add(this.textAreaDiscussion);
 		this.textAreaDiscussion.setEditable(false);
 		JScrollPane scrollDiscussion = new JScrollPane(textAreaDiscussion);
+		//textAreaDiscussion.setLineWrap(true);
 		scrollDiscussion.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		scrollDiscussion.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		PanelCenter.add(scrollDiscussion);
 		this.Panel1.add(this.PanelSouth, BorderLayout.SOUTH);
 
@@ -110,7 +115,9 @@ public class ViewSalon extends JFrame implements ActionListener, KeyListener, Wi
 		this.textAreaMessageToSend.setColumns(22);
 		this.textAreaMessageToSend.setRows(3);
 		JScrollPane scroll = new JScrollPane(textAreaMessageToSend);
+		textAreaMessageToSend.setLineWrap(true);
 		scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		PanelSouth.add(scroll);
 
 		this.PanelSouth.add(this.buttonSend);
@@ -131,7 +138,6 @@ public class ViewSalon extends JFrame implements ActionListener, KeyListener, Wi
 		this.setVisible(true);
 		// this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setTitle(this.nomDuSalon);
-		System.out.println("fenetre salon");
 
 	}
 
@@ -146,8 +152,19 @@ public class ViewSalon extends JFrame implements ActionListener, KeyListener, Wi
 
 		DAOUtilisateur DAOu = new DAOUtilisateur(this.myConnection);
 		Utilisateur sender = DAOu.get(message.getUserId());
-		this.textAreaDiscussion
-				.append(sender.getPseudo() + " : " + message.getDateMessage() + " : " + message.getMessage());
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM HH:mm:ss");
+		if (message.getMessage().endsWith("\n")) {
+			this.textAreaDiscussion
+			.append(sender.getPseudo() + " : " + sdf.format(message.getDateMessage()) + " :\n " + message.getMessage()+"\n");
+		}
+		else {
+			this.textAreaDiscussion
+			.append(sender.getPseudo() + " : " +sdf.format( message.getDateMessage()) + " :\n " + message.getMessage()+"\n\n");
+		}
+		
+		
+		
+		
 		this.listeDesMessages.add(message);
 	}
 
