@@ -180,10 +180,12 @@ public class ViewSalon extends JFrame implements ActionListener, KeyListener {
 
 	public void onButtonDetruireSalon() {
 		DAOSalon daoSalon = new DAOSalon(myConnection);
+		if (this.monUtilisateur.getId() == this.monSalon.getCreateurId()){
 		daoSalon.supprimerSalon(this.monSalon);
 		tRefresh.stop();
 		this.setVisible(false);
 		this.dispose();
+			}
 
 		}
 
