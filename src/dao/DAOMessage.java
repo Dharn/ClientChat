@@ -1,10 +1,11 @@
 package dao;
 
 import java.sql.Connection;
-import java.sql.Date;
+
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Date;
 
 import model.Message;
 import model.Salon;
@@ -29,7 +30,7 @@ public class DAOMessage {
 			Message myMessage = new Message();
 			myMessage.setId(myResult.getInt("MES_ID"));
 			myMessage.setUserId(myResult.getInt("MES_USER_ID"));
-			myMessage.setDateMessage(myResult.getDate("MES_DATE"));
+			myMessage.setDateMessage((Date)myResult.getObject("MES_DATE"));
 			myMessage.setSalonId(myResult.getInt("MES_SALON_ID"));
 			return myMessage;
 			}
@@ -52,7 +53,7 @@ public class DAOMessage {
 			myMessage.setId(myResult.getInt("MES_ID"));
 			myMessage.setMessage(myResult.getString("MES_MESSAGE"));
 			myMessage.setUserId(myResult.getInt("MES_USER_ID"));
-			myMessage.setDateMessage(myResult.getDate("MES_DATE"));
+			myMessage.setDateMessage((Date)myResult.getObject("MES_DATE"));
 			myMessage.setSalonId(myResult.getInt("MES_SALON_ID"));
 			messages.add(myMessage);
 			}
@@ -75,7 +76,7 @@ public class DAOMessage {
 			myMessage.setId(myResult.getInt("MES_ID"));
 			myMessage.setMessage(myResult.getString("MES_MESSAGE"));
 			myMessage.setUserId(myResult.getInt("MES_USER_ID"));
-			myMessage.setDateMessage(myResult.getDate("MES_DATE"));
+			myMessage.setDateMessage((Date)myResult.getObject("MES_DATE"));
 			myMessage.setSalonId(myResult.getInt("MES_SALON_ID"));
 			messages.add(myMessage);
 			}
@@ -98,7 +99,7 @@ public class DAOMessage {
 			Message myMessage = new Message();
 			myMessage.setId(myResult.getInt("MES_ID"));
 			myMessage.setUserId(myResult.getInt("MES_USER_ID"));
-			myMessage.setDateMessage(myResult.getDate("MES_DATE"));
+			myMessage.setDateMessage((Date)myResult.getObject("MES_DATE"));
 			myMessage.setSalonId(myResult.getInt("MES_SALON_ID"));
 			messages.add(myMessage);
 			}
@@ -129,7 +130,7 @@ public class DAOMessage {
 			Message myMessage = new Message();
 			myMessage.setId(myResult.getInt("MES_ID"));
 			myMessage.setUserId(myResult.getInt("MES_USER_ID"));
-			myMessage.setDateMessage(myResult.getDate("MES_DATE"));
+			myMessage.setDateMessage((Date)myResult.getObject("MES_DATE"));
 			myMessage.setSalonId(myResult.getInt("MES_SALON_ID"));
 			
 			messages.add(myMessage);

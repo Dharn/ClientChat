@@ -104,7 +104,7 @@ public class ViewSalon extends JFrame implements ActionListener, KeyListener, Wi
 		this.PanelCenter.add(this.textAreaDiscussion);
 		this.textAreaDiscussion.setEditable(false);
 		JScrollPane scrollDiscussion = new JScrollPane(textAreaDiscussion);
-		//textAreaDiscussion.setLineWrap(true);
+		textAreaDiscussion.setLineWrap(true);
 		scrollDiscussion.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		scrollDiscussion.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		PanelCenter.add(scrollDiscussion);

@@ -240,6 +240,7 @@ public class ViewListeSalon extends JFrame implements ActionListener, KeyListene
 				if (!estPresent) {
 					listeDesSalon.add(sNew);
 					this.ListSalon.add(sNew.getName());
+					this.ListSalon.add(sNew.getMdp());
 				}
 			}
 			for (Salon s : listeDesSalon) {
@@ -252,6 +253,7 @@ public class ViewListeSalon extends JFrame implements ActionListener, KeyListene
 				if (!estPresent) {
 					listeDesSalon.remove(s);
 					this.ListSalon.remove(s.getName());
+					this.ListSalon.remove(s.getMdp());
 				}
 			}
 		} catch (Exception e) {
