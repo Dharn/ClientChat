@@ -283,28 +283,32 @@ public class ViewListeSalon extends JFrame implements ActionListener, KeyListene
 	public void onConnectSalon() {
 
 		DAOSalon DAOs = new DAOSalon(myConnection);
+		System.out.println(this.ListSalon.getSelectedItem());
 		Salon s = DAOs.getByName(this.ListSalon.getSelectedItem());
-		if (s.getMdp().equals("")) {
-			ViewSalon newsalon = new ViewSalon(s, this.myConnection, this.utilisateur);
-		}
-		else {
-			String mdp = JOptionPane.showInputDialog(this,
-					"entrez le mot de passe du salon " + this.ListSalon.getSelectedItem(), this.ListSalon.getSelectedItem(),
-					JOptionPane.PLAIN_MESSAGE);
-			if (mdp != null) {
-				boolean mdpCorrect = DAOs.checkMDP(mdp, s);
-				if (mdpCorrect) {
-					ViewSalon newsalon = new ViewSalon(s, this.myConnection, this.utilisateur);
-				} else {
-					this.labelInfo.setText("Mot de passe du salon incorrect.");
-				}
-				try {
+		if (s!=null) {
+			if (s.getMdp()== null) {
+				ViewSalon newsalon = new ViewSalon(s, this.myConnection, this.utilisateur);
+			}
+			else {
+				String mdp = JOptionPane.showInputDialog(this,
+						"entrez le mot de passe du salon " + this.ListSalon.getSelectedItem(), this.ListSalon.getSelectedItem(),
+						JOptionPane.PLAIN_MESSAGE);
+				if (mdp != null) {
+					boolean mdpCorrect = DAOs.checkMDP(mdp, s);
+					if (mdpCorrect) {
+						ViewSalon newsalon = new ViewSalon(s, this.myConnection, this.utilisateur);
+					} else {
+						this.labelInfo.setText("Mot de passe du salon incorrect.");
+					}
+					try {
 
-				} catch (Exception e) {
-					// TODO: handle exception
+					} catch (Exception e) {
+						// TODO: handle exception
+					}
 				}
 			}
 		}
+		
 		
 
 	}

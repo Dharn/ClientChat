@@ -10,7 +10,7 @@ public class PrincipalChat {
 		
 		try{
 			Class.forName("com.mysql.jdbc.Driver");
-			Connection myConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/chat", "root", "");
+			Connection myConnection = DriverManager.getConnection("jdbc:mysql://192.168.1.78:3306/chat", "chatuser", "password");
 			//Connection myConnection = null;
 			ViewListeSalon l = new ViewListeSalon(myConnection);
 			

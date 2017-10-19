@@ -58,7 +58,6 @@ public class DAOSalon {
 	public ArrayList<Salon> getAll() {
 
 		try {
-			System.out.println("Raffraichissement de la liste des salons disponibles");
 			Statement myStatement = this.connection.createStatement();
 			ResultSet myResult = myStatement.executeQuery("SELECT * FROM salon;");
 
