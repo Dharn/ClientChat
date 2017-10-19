@@ -176,7 +176,7 @@ public class ViewListeSalon extends JFrame implements ActionListener, KeyListene
 		// JOptionPane.showMessageDialog(null, textFieldPseudo);
 
 		// test interface
-		onButtonRafraichir();
+		//onButtonRafraichir();
 	}
 
 	public void onButtonconnexion() {
@@ -341,34 +341,39 @@ public class ViewListeSalon extends JFrame implements ActionListener, KeyListene
 	}
 
 	public void getConnectees() {
-		DAOUtilisateur DAOu = new DAOUtilisateur(myConnection);
-		ArrayList<Utilisateur> listu = DAOu.getAll();
-		listeDesUtilisateursNEW = listu;
+		try {
+			DAOUtilisateur DAOu = new DAOUtilisateur(myConnection);
+			ArrayList<Utilisateur> listu = DAOu.getAll();
+			listeDesUtilisateursNEW = listu;
 
-		for (Utilisateur uNEW : listeDesUtilisateursNEW) {
-			boolean estPresent = false;
-			for (Utilisateur u : listeDesUtilisateurs) {
-				if (uNEW.getPseudo().equals(u.getPseudo())) {
-					estPresent = true;
-				}
-			}
-			if (!estPresent) {
-				listeDesUtilisateurs.add(uNEW);
-				this.ListConnectees.add(uNEW.getPseudo());
-			}
-		}
-		for (Utilisateur u : listeDesUtilisateurs) {
-			boolean estPresent = false;
 			for (Utilisateur uNEW : listeDesUtilisateursNEW) {
-				if (uNEW.getPseudo().equals(u.getPseudo())) {
-					estPresent = true;
+				boolean estPresent = false;
+				for (Utilisateur u : listeDesUtilisateurs) {
+					if (uNEW.getPseudo().equals(u.getPseudo())) {
+						estPresent = true;
+					}
+				}
+				if (!estPresent) {
+					listeDesUtilisateurs.add(uNEW);
+					this.ListConnectees.add(uNEW.getPseudo());
 				}
 			}
-			if (!estPresent) {
-				listeDesUtilisateurs.remove(u);
-				this.ListConnectees.remove(u.getPseudo());
+			for (Utilisateur u : listeDesUtilisateurs) {
+				boolean estPresent = false;
+				for (Utilisateur uNEW : listeDesUtilisateursNEW) {
+					if (uNEW.getPseudo().equals(u.getPseudo())) {
+						estPresent = true;
+					}
+				}
+				if (!estPresent) {
+					listeDesUtilisateurs.remove(u);
+					this.ListConnectees.remove(u.getPseudo());
+				}
 			}
+		} catch (Exception e) {
+			System.out.println("cant refresh user.");
 		}
+		
 	}
 
 	@Override

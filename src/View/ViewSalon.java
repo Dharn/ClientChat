@@ -16,6 +16,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.WindowListener;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -29,7 +30,7 @@ import model.Message;
 import model.Salon;
 import model.Utilisateur;
 
-public class ViewSalon extends JFrame implements ActionListener, KeyListener {
+public class ViewSalon extends JFrame implements ActionListener, KeyListener, WindowListener {
 
 	private Connection myConnection;
 
@@ -120,6 +121,7 @@ public class ViewSalon extends JFrame implements ActionListener, KeyListener {
 		this.buttonSend.addActionListener(this);
 		this.buttonDeleteSalon.addActionListener(this);
 		this.textAreaMessageToSend.addKeyListener(this);
+		this.addWindowListener(this);
 		// set placeholder
 
 		// Affichage de la fenêtre
@@ -140,11 +142,20 @@ public class ViewSalon extends JFrame implements ActionListener, KeyListener {
 		return false;
 	}
 
+	private void ajouterMessageAffichage(Message message) {
+
+		DAOUtilisateur DAOu = new DAOUtilisateur(this.myConnection);
+		Utilisateur sender = DAOu.get(message.getUserId());
+		this.textAreaDiscussion
+				.append(sender.getPseudo() + " : " + message.getDateMessage() + " : " + message.getMessage());
+		this.listeDesMessages.add(message);
+	}
+
 	public void refreshMessages() {
 		System.out.println("refresh messages");
 		DAOMessage daoMessage = new DAOMessage(myConnection);
 		ArrayList<Message> conversation = new ArrayList<Message>();
-		conversation = daoMessage.getAll();
+		conversation = daoMessage.getAllBySalon(this.monSalon);
 		listeDesMessagesNEW = conversation;
 		for (Message mNew : listeDesMessagesNEW) {
 			boolean estPresent = false;
@@ -154,8 +165,7 @@ public class ViewSalon extends JFrame implements ActionListener, KeyListener {
 				}
 			}
 			if (!estPresent) {
-				this.textAreaDiscussion.append(mNew.getMessage());
-				this.listeDesMessages.add(mNew);
+				ajouterMessageAffichage(mNew);
 			}
 
 		}
@@ -182,12 +192,13 @@ public class ViewSalon extends JFrame implements ActionListener, KeyListener {
 		DAOSalon daoSalon = new DAOSalon(myConnection);
 		if (this.monUtilisateur.getId() == this.monSalon.getCreateurId()){
 		daoSalon.supprimerSalon(this.monSalon);
-		tRefresh.stop();
+		this.tRefresh.stop();
 		this.setVisible(false);
 		this.dispose();
 			}
 
-		}
+	}
+	
 
 	@Override
 	public void keyPressed(KeyEvent arg0) {
@@ -227,5 +238,56 @@ public class ViewSalon extends JFrame implements ActionListener, KeyListener {
 		}
 
 	}
+
+
+	@Override
+	public void windowActivated(java.awt.event.WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowClosed(java.awt.event.WindowEvent e) {
+//		System.out.println("fennetre fermée");
+//		this.tRefresh.stop();
+//		this.setVisible(false);
+//		this.dispose();
+		
+	}
+
+	@Override
+	public void windowClosing(java.awt.event.WindowEvent e) {
+		System.out.println("fennetre en train de se fermer");
+		this.tRefresh.stop();
+		this.setVisible(false);
+		this.dispose();
+		
+	}
+
+	@Override
+	public void windowDeactivated(java.awt.event.WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowDeiconified(java.awt.event.WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowIconified(java.awt.event.WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowOpened(java.awt.event.WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
 
 }
