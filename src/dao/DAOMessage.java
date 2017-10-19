@@ -160,5 +160,8 @@ public class DAOMessage {
 			
 		}
 	
+	public int getExpediteurId(Message m){
+		return m.getUserId();
+	}
 	
 }
